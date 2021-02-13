@@ -1,0 +1,21 @@
+<div class="col-md-4">
+  <h1>User List</h1>
+</div>
+
+<table class="table table-striped">
+  <th>
+  	<tr>
+  		<td><h3>ID</h3></td>
+  		<td><h3>Users</h3></td>
+  	</tr>
+  </th>
+
+  <tbody>
+  	<% @users.each do |user| %>
+  	<tr>
+  		<td><%= user.id %></td>
+  		<td><%= user.username %></td>
+  	</tr>
+  	<% end %>
+  </tbody>
+</table>

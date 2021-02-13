@@ -1,0 +1,99 @@
+<h1><%= @blog.title %></h1>
+<p>
+	<% @blog.tags.each do |tag| %>
+		<span class="badge"><%= tag.title %></span>
+	<% end -%>
+</p>
+
+<!-- 文章内容 -->
+<div class="row">
+  <div class="col-md-5">
+    <p><b>作者: <%= @blog.user.username %></b></p>
+    <p>创建时间: <%= @blog.created_at %></p>
+    <%= @blog.content %>
+  </div>
+</div>
+
+<!-- 评论区 -->
+<div class="row">
+  <h3>评论</h3>
+
+  <!-- 评论与回复 -->
+  <div class="panel panel-default">
+    <% @blog.comments.where(commented_id: nil).each do |comment| %>
+      <!-- 评论 -->
+      <div class="panel-heading">
+        <%= comment.user.username %>
+      </div>
+      <div class="panel-body">
+        <%= comment.content %>
+        <% if comment.user == current_user %>
+          <%= link_to "删除评论", blog_comment_path(@blog, comment), method: :delete %>
+        <% else %>
+          <span class="badge reply_words">回复</span>
+        <% end -%>
+      </div>
+
+      <!-- 回复 -->
+      <div>
+        <% if comment.replies.size > 0 %>
+        <ul class="list-group">
+          <% comment.replies.each do |reply| %>
+            <li class="list-group-item">
+              <%= reply.user.username %> 回复 <%= reply.commented.user.username %>: <%= reply.content %>
+            </li>
+          <% end %>
+        </ul>
+        <% end %>
+      </div>
+
+      <!-- 创建回复 -->
+      <div class="reply_box" style="display: none">
+        <%= form_for @blog.user.comments.new, url: blog_comments_path(@blog), method: :post do |f| %>
+          <div class="form-group">
+            <label for="exampleInputPassword1">回复</label>
+            <%= f.text_area :content, class: "form-control",  placeholder: "回复..." %>
+          </div>
+
+          <input type="hidden" name="comment[commented_id]" value="<%= comment.id %>" />
+
+          <%= f.submit "回复", class: "btn btn-primary" %>
+        <% end -%> 
+      </div>
+    <% end %>
+  </div>
+
+  <!-- 创建评论 -->
+  <h3>创建评论</h3>
+  <%= form_for @blog.user.comments.new, url: blog_comments_path(@blog), method: :post do |f| %>
+    <div class="form-group">
+      <label for="exampleInputPassword1">Comment</label>
+      <%= f.text_area :content, class: "form-control",  placeholder: "comment..." %>
+    </div>
+
+    <%= f.submit "Create", class: "btn btn-primary" %>
+  <% end -%>
+</div>
+
+
+
+<script>
+  window.onload = function() {
+    var replyWords_arr = document.querySelectorAll('.reply_words');
+
+    for (var i = replyWords_arr.length - 1; i >= 0; i--) {
+      var replyWords = replyWords_arr[i];
+
+      replyWords.onclick = function() {
+        this.parentNode.nextElementSibling.nextElementSibling.style.display = "block";
+      }
+    }
+
+  };
+  
+
+</script>
+
+
+
+

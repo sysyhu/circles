@@ -1,0 +1,41 @@
+<div class="page-header col-md-4 col-md-offset-4">
+  <h1>
+    <%= @blog.new_record? ? "创建一个博客" : "编辑博客"%>   
+  </h1>
+</div>
+
+<div class="row">
+  <div class="col-md-4 col-md-offset-4">
+    <%= form_for @blog, url: (@blog.new_record? ? blogs_path : blog_path(@blog)), method: (@blog.new_record? ? :post : :put) do |f| %>
+    <% @blog.errors.messages.values.flatten.each do |error| %>
+      <div class="alert alert-danger" role="alert">
+        <%= error %>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <label for="exampleInputEmail1">Title</label>
+      <%= f.text_field :title, class: "form-control",  placeholder: "blog title..." %>
+    </div>
+
+    <div class="form-group">
+      <label for="exampleInputPassword1">Content</label>
+      <%= f.text_area :content, class: "form-control",  placeholder: "content..." %>
+    </div>
+
+    <div class="form-group">
+      <label for="exampleInputPassword1">Tag</label>
+      <input type="text" name="blog[tags_string]" value="<%= @blog.tags.map(&:title).join(',') %>" class="form-control"><small>标签以逗号分隔</small>
+    </div>
+
+    <div class="form-grop">
+      <% [[true, "显示"], [false, "不显示"]].each do |public| %>
+        <input type="radio" name="blog[is_public]" value="<%= public.first %>" <%= "checked" if @blog.is_public == public.first %> /> <%= public.last %>
+      <% end -%>
+    </div>
+
+    <%= f.submit "Create", class: "btn btn-primary" %>
+    <% end %> 
+  </div>
+</div>
+

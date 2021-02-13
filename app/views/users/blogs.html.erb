@@ -1,0 +1,12 @@
+<div class="col-md-4">
+  <h1><%= current_user.username %>'s blogs</h1>
+
+  <div>
+    <%= link_to "Create", new_blog_path, class: "btn btn-primary" %>
+    <% if logged_in? %>
+      <%= link_to "My blogs", blogs_user_path(current_user),class: "btn btn-default" %>
+    <% end -%>
+  </div>
+</div>
+
+<%= render 'blogs/blogs' %>

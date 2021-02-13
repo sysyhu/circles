@@ -1,0 +1,44 @@
+<table class="table table-striped">
+  <th>
+  	<tr>
+  		<td><h3>ID</h3></td>
+  		<td><h3>Title</h3></td>
+      <td><h3>Author</h3></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+  	</tr>
+  </th>
+
+  <tbody>
+  	<% @blogs.each do |blog| %>
+  	<tr>
+  		<td><%= blog.id %></td>
+  		<td>
+        <%= link_to blog.title, blog_path(blog) %>
+        <% blog.tags.each do |tag| %>
+          <span class="badge"><%= tag.title %></span>
+        <% end -%>
+      </td>
+      <td><%= blog.user.username %></td>
+      <td>
+        <% if blog.user == current_user %>
+          <%= blog.is_public ? "显示" : "不显示" %>
+        <% end -%>
+      </td>
+       <td>
+        <% if blog.user == current_user %>
+          <%= link_to "edit", edit_blog_path(blog) %>
+        <% end -%>
+      </td>
+      <td>
+        <% if blog.user == current_user %>
+          <%= link_to "delete", blog_path(blog), method: :delete %>
+        <% end -%>
+      </td>
+      
+  	</tr>
+  	<% end %>
+  </tbody>
+</table>

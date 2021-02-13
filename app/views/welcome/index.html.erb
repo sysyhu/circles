@@ -1,0 +1,12 @@
+<div class="jumbotron">
+	<% if session[:user_id] %>
+		<h3>Hi, <%= "#{User.find(session[:user_id]).username}" %></h3>
+	<% end -%>
+  <h1>Welcome to Circles</h1>
+  <p>Create your blogs here!</p>
+  <% if logged_in? %>
+  	<p><%= link_to "Create", new_blog_path, class: "btn btn-primary btn-lg" %></p>
+  <% else %>
+  	<%= link_to "Sign In", new_session_path, class: "btn btn-primary btn-lg" %>
+  <% end -%>
+</div>                 
