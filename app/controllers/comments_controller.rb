@@ -3,7 +3,6 @@ class CommentsController < ApplicationController
 	before_action :auth_user
 
 	def index
-
 	end
 
 	def new
@@ -12,8 +11,8 @@ class CommentsController < ApplicationController
 
 	def create
 		@blog = Blog.find(params[:blog_id])
-    @comment = @blog.comments.new(comment_attrs)
-    @comment.user = current_user
+    	@comment = @blog.comments.new(comment_attrs)
+    	@comment.user = current_user
     #binding.pry
 		if @comment.save
 			flash[:notice] = "comment 创建成功"

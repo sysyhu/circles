@@ -20,6 +20,9 @@ class UsersController < ApplicationController
   	end
   end
 
+  #修改个人信息 update
+  #注销用户 destroy
+
   def blogs
     @blogs = current_user.blogs
   end

@@ -1,4 +1,7 @@
 class Comment < ApplicationRecord
+	#一、校验
+
+	
 	#二、Associations
 	belongs_to :user
 	belongs_to :blog

@@ -28,9 +28,12 @@
       <div class="panel-body">
         <%= comment.content %>
         <% if comment.user == current_user %>
-          <%= link_to "删除评论", blog_comment_path(@blog, comment), method: :delete %>
+          <span><%= link_to "删除评论", blog_comment_path(@blog, comment), method: :delete %></span>
         <% else %>
           <span class="badge reply_words">回复</span>
+          <% if @blog.user == current_user %>
+            <span><%= link_to "删除评论", blog_comment_path(@blog, comment), method: :delete %></span>
+          <% end %>
         <% end -%>
       </div>
 
@@ -41,6 +44,9 @@
           <% comment.replies.each do |reply| %>
             <li class="list-group-item">
               <%= reply.user.username %> 回复 <%= reply.commented.user.username %>: <%= reply.content %>
+              <% if comment.user == current_user || @blog.user == current_user %>
+                <span><%= link_to "删除评论", blog_comment_path(@blog, comment), method: :delete %></span>
+              <% end %>
             </li>
           <% end %>
         </ul>
